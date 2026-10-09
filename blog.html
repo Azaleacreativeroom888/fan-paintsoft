@@ -1,79 +1,128 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>疑問ログ（CLIP STUDIO）</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      line-height: 1.6;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ブログ｜ぬりぬりラボ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sun:#ffd23f; --cream:#fff4cc; --orange:#ff7a1a; --tangerine:#ff9f43;
+  --brown:#4a2410; --white:#fffdf5; --pink:#ff5d73;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;color:var(--brown);background:var(--cream);line-height:1.8;font-size:16px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--brown);outline-offset:3px}
+h1,h2{font-family:"Dela Gothic One","Zen Maru Gothic",sans-serif;font-weight:400;line-height:1.3}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
 
-    h1 {
-      margin-bottom: 10px;
-    }
+header{background:var(--sun);border-bottom:4px solid var(--brown)}
+header .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px;padding-top:12px;padding-bottom:12px}
+.logo{font-family:"Dela Gothic One",sans-serif;font-size:1.4rem;text-decoration:none}
+nav ul{display:flex;gap:6px;list-style:none;flex-wrap:wrap}
+nav a{display:block;padding:4px 14px;border-radius:999px;text-decoration:none;font-weight:700;border:2px solid transparent}
+nav a:hover,nav a[aria-current]{background:var(--white);border-color:var(--brown)}
 
-    .note {
-      color: #666;
-      font-size: 0.9em;
-    }
+.hero{background:var(--sun);padding:40px 0 64px;position:relative;overflow:hidden}
+.hero .wrap{position:relative;z-index:1}
+.hero h1{font-size:clamp(2rem,5.5vw,3.2rem)}
+.hero h1 span{background:var(--orange);color:var(--white);padding:0 .25em;border-radius:.3em;display:inline-block;transform:rotate(-2deg)}
+.hero p{margin-top:12px;max-width:32em}
+.blob{position:absolute;border-radius:50%;z-index:0}
+.b1{width:200px;height:200px;background:var(--tangerine);right:-60px;bottom:-100px}
+.b2{width:100px;height:100px;background:var(--pink);right:18%;top:-36px;opacity:.8}
+.wave{display:block;width:100%;height:40px;margin-top:-39px;position:relative}
 
-    .post {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 15px;
-      margin-top: 20px;
-    }
+.feed{padding:40px 0 64px}
+.feed .wrap{display:grid;grid-template-columns:1fr 240px;gap:32px;align-items:start}
+.tl{display:grid;gap:16px}
+.post{background:var(--white);border:3px solid var(--brown);border-radius:18px;padding:16px 20px;display:grid;grid-template-columns:48px 1fr;gap:14px}
+.post:target{box-shadow:6px 6px 0 var(--orange)}
+.av{width:48px;height:48px;border-radius:50%;background:var(--sun);border:3px solid var(--brown);display:grid;place-items:center;font-weight:700}
+.post time{display:block;font-size:.85rem;opacity:.7;margin-bottom:2px}
+.post p+p{margin-top:.6em}
 
-    .meta {
-      font-size: 0.8em;
-      color: #888;
-      margin-bottom: 8px;
-    }
+aside{position:sticky;top:16px;display:grid;gap:16px}
+.box{background:var(--white);border:3px solid var(--brown);border-radius:18px;padding:16px 18px}
+.box h2{font-size:1.1rem;margin-bottom:6px}
+.box ul{list-style:none}
+.box li a{text-decoration:none;display:block;padding:2px 0}
+.box li a:hover{color:var(--orange);font-weight:700}
+.btn{display:inline-block;background:var(--brown);color:var(--white);padding:8px 20px;border-radius:999px;text-decoration:none;font-weight:700;box-shadow:4px 4px 0 var(--orange);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--orange)}
 
-    input, textarea {
-      width: 100%;
-      margin-top: 8px;
-      padding: 8px;
-      font-size: 1em;
-    }
+footer{background:var(--brown);color:var(--cream);padding:28px 0;text-align:center;font-size:.9rem}
+footer a{margin:0 8px}
 
-    button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-
-  </style>
+@media(max-width:760px){
+  .feed .wrap{grid-template-columns:1fr}
+  aside{position:static}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
 </head>
-
 <body>
 
-  <h1>疑問ログ</h1>
-  <p class="note">
-    クリスタで詰まったこと・気づき・仮説を雑に残す場所（整理しなくていい）
-  </p>
-
-  <!-- サンプル投稿 -->
-  <div class="post">
-    <div class="meta">2026-04-20</div>
-    <h2>レイヤーが重なると色が濁る理由がわからない</h2>
-    <p>
-      乗算とスクリーンの違いはわかるけど、実際の色変化の直感がまだ弱い。
-      とりあえず重ねて試すしかない気がする。
-    </p>
+<header>
+  <div class="wrap">
+    <a class="logo" href="index.html">ぬりぬりラボ</a>
+    <nav aria-label="メインメニュー">
+      <ul>
+        <li><a href="index.html">ホーム</a></li>
+        <li><a href="blog.html" aria-current="page">ブログ</a></li>
+        <li><a href="column.html">コラム</a></li>
+        <li><a href="about.html">このサイトについて</a></li>
+      </ul>
+    </nav>
   </div>
+</header>
 
-  <div class="post">
-    <div class="meta">2026-04-20</div>
-    <h2>ブラシの遅延が気になる</h2>
-    <p>
-      PC性能なのか設定なのか不明。手ブレ補正を上げすぎてる可能性あり。
-      次は補正を下げて検証する。
-    </p>
+<main>
+<div class="hero">
+  <span class="blob b1"></span><span class="blob b2"></span>
+  <div class="wrap">
+    <h1>勉強<span>ログ</span></h1>
+    <p>ペイントソフトの勉強の進捗を、日付と一言で。新しい投稿がいちばん上に並びます。</p>
   </div>
+</div>
+<svg class="wave" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 C150 40 300 40 450 20 S750 0 900 20 S1100 40 1200 10 V0 Z" fill="#ffd23f"/></svg>
+
+<div class="feed">
+  <div class="wrap">
+    <div class="tl">
+      <!-- 新しい投稿は、この下にコピーして上から足していく -->
+      <article class="post" id="p20261008"><div class="av">ぬ</div><div><time datetime="2026-10-08">2026.10.08</time><p>今日はレイヤーの順番を入れ替える練習。影のレイヤーを下に置いてしまってやり直した。</p></div></article>
+      <article class="post" id="p20261007"><div class="av">ぬ</div><div><time datetime="2026-10-07">2026.10.07</time><p>ブラシの筆圧設定を変えたら、線がぐっと描きやすくなった！</p></div></article>
+      <article class="post" id="p20261006"><div class="av">ぬ</div><div><time datetime="2026-10-06">2026.10.06</time><p>選択範囲で塗りつぶし。はみ出しゼロで気持ちいい。</p></div></article>
+      <article class="post" id="p20261004"><div class="av">ぬ</div><div><time datetime="2026-10-04">2026.10.04</time><p>グラデーションツールを初めて使った。空の色がなめらかにつながって感動。</p></div></article>
+      <article class="post" id="p20261002"><div class="av">ぬ</div><div><time datetime="2026-10-02">2026.10.02</time><p>ショートカットキーを3つ覚えた。取り消しが速くなって、描くリズムが良くなった気がする。</p></div></article>
+      <article class="post" id="p20261001"><div class="av">ぬ</div><div><time datetime="2026-10-01">2026.10.01</time><p>勉強スタート！まずは新規キャンバスの作り方と、解像度の設定から。</p></div></article>
+    </div>
+
+    <aside>
+      <div class="box">
+        <h2>月ごとに見る</h2>
+        <ul>
+          <li><a href="#p20261008">2026年10月</a></li>
+        </ul>
+      </div>
+      <div class="box">
+        <h2>コラムも読む</h2>
+        <p style="margin-bottom:10px;font-size:.92rem">マンガや4コマ、小論文を置いています。</p>
+        <a class="btn" href="column.html">コラムへ</a>
+      </div>
+    </aside>
+  </div>
+</div>
+</main>
+
+<footer>
+  <p><a href="index.html">ホーム</a><a href="blog.html">ブログ</a><a href="column.html">コラム</a><a href="about.html">このサイトについて</a></p>
+  <p>© ぬりぬりラボ</p>
+</footer>
 
 </body>
 </html>
