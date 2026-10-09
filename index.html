@@ -1,84 +1,211 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>CLIP STUDIO 学習ログ</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      line-height: 1.6;
-    }
-    h1 {
-      margin-bottom: 10px;
-    }
-    .section {
-      margin-top: 30px;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-    }
-    a {
-      display: block;
-      margin: 8px 0;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .note {
-      color: #666;
-      font-size: 0.9em;
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 10px;
-    }
-  </style>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ぬりぬりラボ｜ペイントソフトの勉強サイト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sun:#ffd23f; --cream:#fff4cc; --orange:#ff7a1a; --tangerine:#ff9f43;
+  --brown:#4a2410; --white:#fffdf5; --pink:#ff5d73;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN",sans-serif;color:var(--brown);background:var(--cream);line-height:1.8;font-size:16px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--brown);outline-offset:3px}
+h1,h2{font-family:"Dela Gothic One","Zen Maru Gothic",sans-serif;font-weight:400;line-height:1.3}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
 
+header{background:var(--sun);border-bottom:4px solid var(--brown)}
+header .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px;padding-top:12px;padding-bottom:12px}
+.logo{font-family:"Dela Gothic One",sans-serif;font-size:1.4rem;text-decoration:none}
+nav ul{display:flex;gap:6px;list-style:none;flex-wrap:wrap}
+nav a{display:block;padding:4px 14px;border-radius:999px;text-decoration:none;font-weight:700;border:2px solid transparent}
+nav a:hover,nav a[aria-current]{background:var(--white);border-color:var(--brown)}
+
+.hero{background:var(--sun);padding:48px 0 72px;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:center}
+.hero h1{font-size:clamp(2rem,5.5vw,3.6rem)}
+.hero h1 span{background:var(--orange);color:var(--white);padding:0 .25em;border-radius:.3em;display:inline-block;transform:rotate(-2deg)}
+.hero p{margin:18px 0 24px;max-width:30em}
+.btn{display:inline-block;background:var(--brown);color:var(--white);padding:10px 24px;border-radius:999px;text-decoration:none;font-weight:700;box-shadow:4px 4px 0 var(--orange);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--orange)}
+.btn.sub{background:var(--white);color:var(--brown);border:2px solid var(--brown);margin-left:8px;box-shadow:none}
+.blob{position:absolute;border-radius:50%;z-index:0}
+.b1{width:220px;height:220px;background:var(--tangerine);left:-70px;bottom:-110px}
+.b2{width:120px;height:120px;background:var(--pink);right:6%;top:-40px;opacity:.8}
+.hero .wrap{position:relative;z-index:1}
+.wave{display:block;width:100%;height:40px;margin-top:-39px;position:relative}
+
+/* 試し描きキャンバス */
+.paint{background:var(--white);border:4px solid var(--brown);border-radius:20px;box-shadow:8px 8px 0 var(--brown);overflow:hidden}
+.paint-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--tangerine);border-bottom:3px solid var(--brown);flex-wrap:wrap}
+.paint-bar b{font-size:.85rem;margin-right:auto}
+.sw{width:26px;height:26px;border-radius:50%;border:3px solid var(--brown);cursor:pointer;padding:0}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--white),0 0 0 6px var(--brown)}
+.clear{font:inherit;font-size:.8rem;font-weight:700;padding:2px 10px;border:2px solid var(--brown);border-radius:999px;background:var(--white);color:var(--brown);cursor:pointer}
+canvas{display:block;width:100%;height:240px;touch-action:none;cursor:crosshair;background:var(--white)}
+
+section{padding:56px 0}
+h2{font-size:clamp(1.5rem,3.5vw,2.1rem);margin-bottom:8px}
+.lead{margin-bottom:28px}
+
+/* ツールパレット */
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.tool{background:var(--white);border:3px solid var(--brown);border-radius:18px;padding:18px}
+.tool:nth-child(odd){transform:rotate(-1deg)}
+.tool:nth-child(even){transform:rotate(1deg)}
+.tool .ico{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;font-size:1.5rem;margin-bottom:8px;border:3px solid var(--brown)}
+.tool h3{font-size:1.1rem}
+.tool p{font-size:.92rem}
+
+.orange-band{background:var(--orange);color:var(--white)}
+.orange-band h2{color:var(--white)}
+.orange-band .lead{color:var(--white)}
+
+/* ブログ風ミニタイムライン */
+.tl{display:grid;gap:14px;max-width:640px}
+.post{background:var(--white);color:var(--brown);border-radius:18px;padding:14px 18px;display:grid;grid-template-columns:44px 1fr;gap:12px;border:3px solid var(--brown)}
+.av{width:44px;height:44px;border-radius:50%;background:var(--sun);border:3px solid var(--brown);display:grid;place-items:center;font-weight:700}
+.post time{font-size:.8rem;opacity:.7}
+.more{margin-top:20px}
+.orange-band .btn{background:var(--white);color:var(--brown);box-shadow:4px 4px 0 var(--brown)}
+
+/* コラム */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.col{background:var(--white);border:3px solid var(--brown);border-radius:18px;overflow:hidden;text-decoration:none;display:block}
+.col:hover{box-shadow:6px 6px 0 var(--orange)}
+.thumb{height:130px;display:grid;place-items:center;font-size:2.6rem;border-bottom:3px solid var(--brown)}
+.col div:last-child{padding:14px 18px}
+.col h3{font-size:1.05rem}
+.col small{opacity:.7}
+
+footer{background:var(--brown);color:var(--cream);padding:28px 0;text-align:center;font-size:.9rem}
+footer a{margin:0 8px}
+
+@media(max-width:760px){
+  .hero .wrap{grid-template-columns:1fr}
+  .btn.sub{margin:8px 0 0}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
 <body>
 
-  <h1>CLIP STUDIO 学習ログ</h1>
-  <p class="note">
-    クリスタの操作・疑問・気づきを整理するための個人データベース
-  </p>
-
-  <!-- 機能解説 -->
-  <div class="section">
-    <h2>まずこれだけ覚える</h2>
-    <p class="note">開く方法と保存</p>
-
-    <a href="begging.html">描き始める</a>
-    <a href="save.html">保存</a>
+<header>
+  <div class="wrap">
+    <a class="logo" href="index.html">ぬりぬりラボ</a>
+    <nav aria-label="メインメニュー">
+      <ul>
+        <li><a href="index.html" aria-current="page">ホーム</a></li>
+        <li><a href="blog.html">ブログ</a></li>
+        <li><a href="column.html">コラム</a></li>
+        <li><a href="about.html">このサイトについて</a></li>
+      </ul>
+    </nav>
   </div>
+</header>
 
-  <!-- 機能解説 -->
-  <div class="section">
-    <h2>① 機能解説（辞書）</h2>
-    <p class="note">ボタン・タブ・機能の意味を整理</p>
-
-    <a href="ui.html">UI・ボタン一覧</a>
-    <a href="layer.html">レイヤー</a>
-    <a href="brush.html">ブラシ</a>
-    <a href="tool.html">ツール設定</a>
+<main>
+<div class="hero">
+  <span class="blob b1"></span><span class="blob b2"></span>
+  <div class="wrap">
+    <div>
+      <h1>ペイントソフトを、<br><span>たのしく</span>おぼえる。</h1>
+      <p>ブラシ、レイヤー、色の塗り方まで。ペイントソフトの勉強の記録と、そこから生まれたマンガやイラストを置いている勉強サイトです。</p>
+      <a class="btn" href="blog.html">勉強ログを見る</a>
+      <a class="btn sub" href="column.html">コラムを読む</a>
+    </div>
+    <div class="paint">
+      <div class="paint-bar" role="group" aria-label="色えらび">
+        <b>ちょっと描いてみる</b>
+        <button class="sw" style="background:#ff7a1a" aria-label="オレンジ" aria-pressed="true" data-c="#ff7a1a"></button>
+        <button class="sw" style="background:#ffd23f" aria-label="きいろ" aria-pressed="false" data-c="#ffd23f"></button>
+        <button class="sw" style="background:#ff5d73" aria-label="ピンク" aria-pressed="false" data-c="#ff5d73"></button>
+        <button class="sw" style="background:#4a2410" aria-label="ちゃいろ" aria-pressed="false" data-c="#4a2410"></button>
+        <button class="clear" id="clear" type="button">消す</button>
+      </div>
+      <canvas id="cv" aria-label="自由に描ける試し描きキャンバス"></canvas>
+    </div>
   </div>
+</div>
+<svg class="wave" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 C150 40 300 40 450 20 S750 0 900 20 S1100 40 1200 10 V0 Z" fill="#ffd23f"/></svg>
 
-  <!-- 検索 -->
-    <section class="search">
-      <input type="text" placeholder="作品を検索">
-      <button>検索</button>
-    </section>
-
-  <!-- ブログ -->
-  <div class="section">
-    <h2>③ 疑問ログ（ブログ）</h2>
-    <p class="note">調べたこと・詰まったこと・仮説の記録</p>
-
-    <a href="blog.html">ブログ一覧</a>
+<section>
+  <div class="wrap">
+    <h2>いま勉強していること</h2>
+    <p class="lead">ペイントソフトの道具を、ひとつずつ試して覚えていきます。</p>
+    <div class="tools">
+      <div class="tool"><div class="ico" style="background:var(--sun)">🖌️</div><h3>ブラシ</h3><p>太さ・筆圧・質感を変えて、線の表情を知る。</p></div>
+      <div class="tool"><div class="ico" style="background:var(--tangerine)">📚</div><h3>レイヤー</h3><p>線画と色を分けて、あとから直せる描き方に。</p></div>
+      <div class="tool"><div class="ico" style="background:var(--pink)">🎨</div><h3>色と塗り</h3><p>配色やグラデーション、影の入れ方を練習。</p></div>
+      <div class="tool"><div class="ico" style="background:var(--white)">✂️</div><h3>選択範囲</h3><p>はみ出さない塗りと、素早い修正のコツ。</p></div>
+    </div>
   </div>
+</section>
 
+<section class="orange-band">
+  <div class="wrap">
+    <h2>さいきんの勉強ログ</h2>
+    <p class="lead">日付と一言だけの、気軽な進捗メモです。</p>
+    <div class="tl">
+      <article class="post"><div class="av">ぬ</div><div><time datetime="2026-10-08">2026.10.08</time><p>今日はレイヤーの順番を入れ替える練習。影のレイヤーを下に置いてしまってやり直した。</p></div></article>
+      <article class="post"><div class="av">ぬ</div><div><time datetime="2026-10-07">2026.10.07</time><p>ブラシの筆圧設定を変えたら、線がぐっと描きやすくなった！</p></div></article>
+      <article class="post"><div class="av">ぬ</div><div><time datetime="2026-10-06">2026.10.06</time><p>選択範囲で塗りつぶし。はみ出しゼロで気持ちいい。</p></div></article>
+    </div>
+    <p class="more"><a class="btn" href="blog.html">ログをぜんぶ見る</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>コラム</h2>
+    <p class="lead">関連のマンガやイラスト、4コマ、ちょっとした小論文を置いています。</p>
+    <div class="cols">
+      <a class="col" href="column.html"><div class="thumb" style="background:var(--sun)">🖼️</div><div><h3>イラスト</h3><small>勉強の成果を置く場所</small></div></a>
+      <a class="col" href="column.html"><div class="thumb" style="background:var(--tangerine)">📖</div><div><h3>マンガ・4コマ</h3><small>ペイントソフトあるあるを描く</small></div></a>
+      <a class="col" href="column.html"><div class="thumb" style="background:var(--pink)">✏️</div><div><h3>ひとこと小論文</h3><small>デジタルで描く、を考える</small></div></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p><a href="index.html">ホーム</a><a href="blog.html">ブログ</a><a href="column.html">コラム</a><a href="about.html">このサイトについて</a></p>
+  <p>© ぬりぬりラボ</p>
+</footer>
+
+<script>
+(function(){
+  var cv=document.getElementById('cv'),ctx=cv.getContext('2d'),color='#ff7a1a',down=false,last=null;
+  function fit(){
+    var r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1;
+    cv.width=r.width*d;cv.height=r.height*d;
+    ctx.scale(d,d);ctx.lineCap='round';ctx.lineJoin='round';
+  }
+  fit();
+  function pos(e){var r=cv.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+  cv.addEventListener('pointerdown',function(e){down=true;last=pos(e);cv.setPointerCapture(e.pointerId);draw(last,last,e)});
+  cv.addEventListener('pointermove',function(e){if(!down)return;var p=pos(e);draw(last,p,e);last=p});
+  ['pointerup','pointercancel'].forEach(function(t){cv.addEventListener(t,function(){down=false})});
+  function draw(a,b,e){
+    ctx.strokeStyle=color;
+    ctx.lineWidth=e.pointerType==='pen'?2+e.pressure*14:8;
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+  }
+  document.querySelectorAll('.sw').forEach(function(s){
+    s.addEventListener('click',function(){
+      color=s.dataset.c;
+      document.querySelectorAll('.sw').forEach(function(o){o.setAttribute('aria-pressed',o===s)});
+    });
+  });
+  document.getElementById('clear').addEventListener('click',function(){
+    ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);ctx.restore();
+  });
+})();
+</script>
 </body>
 </html>
